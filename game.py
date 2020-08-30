@@ -34,34 +34,47 @@ class Game:
 		self.board[selection[0]][selection[1]] = 2 if random.random()<0.9 else 4
 		return True
 
-	def takeAction(self, letter):
-		if letter == 'w':
-			for i in range(0,4):
-				column = []
-				for l in self.board:
-					column.append(l[i]) #Now the column == a 'row', with index 0 corresponding to row zero
-				print('Column: ' + str(column))
-				idx = 0 #Start from the top of the column, since we are going up
-				shift = 0
-				n=0
-				for j in range(0,4): #Don't need to check top index
-					n=j
-					if column[j]==0:
-						shift+=1
-						continue
-					if shift>0:
-						column[j-shift]=column[j]
-						n=j-shift
-						column[j]=0
-						shift=0
+	def slide(self, l, direction): #direction = True for up or left, false for right or down
+		if direction == False:
+			l.reverse()
+		j=0
+		while j<16:
+			tookAction = False
+			idx=0
+			while idx<len(l)-1:
+				if(l[idx]==0):
+					l[idx]=l[idx+1]
+					l[idx+1]=0
+					print(l)
+				idx+=1
+			j+=1
+		if direction == False:
+			l.reverse()
+		return l
 
-					if n-1>-1 and column[n-1]==column[n]: #Up-shifted to touching now
-						shift+=1
-						column[n-1]*=2
-						column[n]=0
-						n-=1
-				for k in range(4):
-					self.board[k][i]=column[k]
+	def combine(self, l, combineTowardsStart):
+		list = self.slide(l, combineTowardsStart)
+		if combineTowardsStart == False: #Up or left, start combining from the 4th index
+			list.reverse()
+
+		#Check from the	start of the list, combining and then moving on, and then reverse list again if combineTowardsStart
+		for i in range(0,3):
+			if list[i] == list[i+1]:
+				list[i]*=2
+				list[i+1]=0
+		if combineTowardsStart == False:
+			list.reverse()
+		list = self.slide(list, combineTowardsStart)
+		return list
+
+	def takeAction(self, letter):
+		if letter == 'w' or letter == 's':
+			for i in range(0,4):
+				column=[]
+				for c in range(0,4):
+					column.append(self.board[c][i])
+				process column
+				dir = 
 		elif letter == 's':
 			pass
 		elif letter == 'a':
