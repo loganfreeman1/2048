@@ -18,6 +18,7 @@ class Game:
 			while True:
 				action = self.getAction()
 				check = self.checkAction(action)
+				print(check)
 				if check != False:
 					self.takeAction(action)
 					break
@@ -45,7 +46,6 @@ class Game:
 				if(l[idx]==0):
 					l[idx]=l[idx+1]
 					l[idx+1]=0
-					print(l)
 				idx+=1
 			j+=1
 		if direction == False:
@@ -73,14 +73,14 @@ class Game:
 				column=[]
 				for c in range(0,4):
 					column.append(self.board[c][i])
-				process column
-				dir = 
-		elif letter == 's':
-			pass
-		elif letter == 'a':
-			pass
-		elif letter == 'd':
-			pass
+				column = self.combine(column, True if letter == 'w' else False)
+				for c in range(0,4):
+					self.board[c][i]=column[c]
+		else:
+			for r in range(0,4):
+				row = self.board[r]
+				row = self.combine(row, True if letter == 'a' else False)
+				self.board[r]=row
 
 	def getAction(self):
 		return input('w, a, s, or d to slide tiles around: ')
@@ -88,6 +88,7 @@ class Game:
 	def checkAction(self, letter):
 		if letter == 'w':
 			#Iterate through every tile, if it can move to the tile above then return the
+			testBoard = self.board
 			for i in range(1,4):
 				for j in range(0,4):
 					#Check first 3 rows
