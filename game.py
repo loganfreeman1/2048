@@ -93,45 +93,51 @@ class Game:
 				for j in range(0,4):
 					#Check first 3 rows
 					currentSquare = self.board[i][j]
-					aboveSquare = self.board[i-1][j]
-					if currentSquare==aboveSquare and currentSquare !=0:
-						return True
-					if aboveSquare == 0:
-						return True
-					return False
+					for k in range(0,i):
+						aboveSquare = self.board[k][j]
+						if currentSquare==aboveSquare and aboveSquare != 0:
+							return True
+						if aboveSquare == 0:
+							return True
+			return False
+
 		elif letter == 'd':
 			for i in range(0,3):
 				for j in range(0,4):
 					#Check last 3 rows
 					currentSquare = self.board[i][j]
-					belowSquare = self.board[i+1][j]
-					if currentSquare==belowSquare and currentSquare != 0:
-						return True
-					if belowSquare == 0:
-						return True
-					return False
+					for k in range(j+1,4):
+						belowSquare = self.board[k][j]
+						if currentSquare==belowSquare and currentSquare != 0:
+							return True
+						if belowSquare == 0:
+							return True
+			return False
+
 		elif letter == 'a':
 			for i in range(0,4):
 				for j in range(1,4):
 					#Check columns 2-4
 					currentSquare = self.board[i][j]
-					leftSquare = self.board[i][j-1]
-					if currentSquare==leftSquare and currentSquare != 0:
-						return True
-					if leftSquare == 0:
-						return True
-					return False
+					for k in range(0,j):
+						leftSquare = self.board[i][k]
+						if currentSquare==leftSquare and currentSquare != 0:
+							return True
+						if leftSquare == 0:
+							return True
+			return False
 		elif letter == 's':
 			for i in range(0,4):
 				for j in range(0,3):
 					#Check columns 1-3
 					currentSquare = self.board[i][j]
-					rightSquare = self.board[i][j-1]
-					if currentSquare==rightSquare and currentSquare != 0:
-						return True
-					if rightSquare == 0:
-						return True
-					return False
+					for k in range(i+1,4):
+						rightSquare = self.board[i][k]
+						if currentSquare==rightSquare and currentSquare != 0:
+							return True
+						if rightSquare == 0:
+							return True
+			return False
 		else:
 			return False
 
